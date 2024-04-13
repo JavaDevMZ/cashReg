@@ -1,19 +1,23 @@
-package com.cashReg.models;
+package com.cashReg;
 
 import com.cashReg.dao.SQLExecutor;
+import com.cashReg.models.OrderItem;
+import com.cashReg.models.Product;
+import com.cashReg.util.SQLArrayList;
 
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Singleton
 public final class Warehouse {
 
     private static Warehouse instance;
 
-    private final List<OrderItem> products;
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    private List<Product> products;
     private SQLExecutor sqlExecutor = new SQLExecutor();
 
 
@@ -29,7 +33,7 @@ public final class Warehouse {
     }
 
     public Product getProduct(long id){
-        for(Product product : products.keySet()){
+        for(Product product : products){
             if(product.getId()==id){
                 return product;
             }
@@ -37,7 +41,7 @@ public final class Warehouse {
         return null;
     }
     public Product getProduct(String name){
-        for(Product product : products.keySet()){
+        for(Product product : products){
             if(product.getName().equals(name)){
                 return product;
             }
@@ -45,13 +49,12 @@ public final class Warehouse {
         return null;
     }
 
-    public void setQuantity(Product product, long quantity){
-        if(!products.containsKey(product)){
-            throw new IllegalArgumentException("product not found");
-        }
-        products.put(product, quantity);
+    public void setQuantity(long id, long quantity){
+
+        ((SQLArrayList<Product>)products).getById(id).setQuantity(quantity);
     }
-    public List<OrderItem> getProducts() {
+
+    public List<Product> getProducts() {
         return products;
     }
 

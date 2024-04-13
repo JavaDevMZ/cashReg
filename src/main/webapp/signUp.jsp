@@ -12,21 +12,19 @@
     <title>Sign up</title>
 </head>
 <body>
-     <form name="sign up" method="post" id="sign_up_form">
+     <form name="sign up" method="POST" id="sign_up_form">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="">
+        <input type="text" id="username" name="username">
         <label for="password">Password:</label>
         <input type="password" id="password" aria-label="Password:" name="password">
         <select  name="role">
             Choose your role
-            <option value=0>Cashier</option>
-            <option value=1>Senior Cashier</option>
-            <option value=2>Commodity Expert</option>
+            <option value="Cashier">Cashier</option>
+            <option value="SeniorCashier">Senior Cashier</option>
+            <option value="CommodityExpert">Commodity Expert</option>
         </select>
-
-
     </form>
-   <button form="sign_up_form" formmethod="post" type="submit" >Submit</button>
-     <% out.println("<p>"+request.getAttribute("Welcome")+"</p>"); %>
+   <button form="sign_up_form" formmethod="POST" type="submit" >Submit</button>
+
 </body>
 </html>

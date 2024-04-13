@@ -1,17 +1,10 @@
 package com.cashReg.models;
 
-public class Product {
+public class Product extends Model{
 
-    private long id;
     private String name;
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
+    private float price;
+    private long quantity;
 
     public long getQuantity() {
         return quantity;
@@ -21,8 +14,13 @@ public class Product {
         this.quantity = quantity;
     }
 
-    private float price;
-    private long quantity;
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
 
     public Product(long id, String name, float price, long quantity) {
         this.id = id;
@@ -31,13 +29,7 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    public Product(){}
 
     public String getName() {
         return name;
@@ -47,4 +39,18 @@ public class Product {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(o==null){return false;}
+        if(o==this){return true;}
+
+        if(!(getClass()!=o.getClass())){return false;}
+            Product other = (Product) o;
+            return id == other.id || name.equals(other.name);
+    }
+
+    @Override
+    public int hashCode(){
+        return 31 + 17*(int)id + 17*name.hashCode() + 17*(int)price;
+    }
    }

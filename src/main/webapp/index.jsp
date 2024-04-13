@@ -5,7 +5,7 @@
 <h2>Hello World!</h2>
     <div>
 <button onclick = "location.href='/sign-up'">
-    Create an account
+    Sign up
 </button>
     </div>
     <div>

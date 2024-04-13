@@ -1,6 +1,4 @@
-package com.cashReg.models;
-
-import java.util.Arrays;
+package com.cashReg.util;
 
 public enum Role {
     CASHIER("Cashier", 1),

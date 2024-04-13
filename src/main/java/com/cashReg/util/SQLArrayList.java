@@ -1,23 +1,53 @@
 package com.cashReg.util;
 
 import com.cashReg.dao.SQLExecutor;
+import com.cashReg.models.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLList<T> extends ArrayList {
+public class SQLArrayList<T extends Model> extends ArrayList<T> {
 
     private List<T> origin;
-    private SQLExecutor = new SQLExecutor();
+    private SQLExecutor sqlExecutor = new SQLExecutor();
 
-    public SQLList(List<T> origin){
+    public SQLArrayList(List<T> origin){
         this.origin = origin;
     }
 
     @Override
     public boolean add(T object){
-        boolean result = origin.add(object);
-
+        sqlExecutor.insertObject(object);
+        return origin.add(object);
     }
 
+    @Override
+    public boolean contains(Object object){
+        return origin.contains(object);
+    }
+
+    public T getById(long id){
+      T result = null;
+        for(T el : origin){
+          if(el.getId()==id){
+              result = el;
+              break;
+          }
+        }
+        return result;
+    }
+
+    public T removeById(long productId){
+        for(int i = 0; i < origin.size(); i++){
+            if(origin.get(i).getId()==productId){
+               return remove(i);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public T remove(int index){
+       return origin.remove(index);
+    }
 }

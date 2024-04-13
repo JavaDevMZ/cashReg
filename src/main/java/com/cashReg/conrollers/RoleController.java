@@ -1,6 +1,6 @@
 package com.cashReg.conrollers;
 
-import com.cashReg.models.Role;
+import com.cashReg.util.Role;
 
 public class RoleController {
     private Role role;

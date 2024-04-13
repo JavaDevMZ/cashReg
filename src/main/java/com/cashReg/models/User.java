@@ -1,9 +1,13 @@
 package com.cashReg.models;
 
-public abstract class User {
-    private int id;
+import com.cashReg.util.Role;
+
+public abstract class User extends Model{
+
     private String username;
     private final Role role;
+    private String password;
+
     public User(String userame, String password){
         this.username = username;
         this.password = password;
@@ -31,13 +35,6 @@ public abstract class User {
         this.password = password;
     }
 
-    private String password;
-
-    public void setId(int id){
-        this.id=id;
-    }
-
-    public int getId(){return id;}
     public String getUsername() {
         return username;
     }
@@ -67,6 +64,6 @@ public abstract class User {
 
     @Override
     public int hashCode(){
-        return 31+17*username.hashCode();
+        return 31+17*username.hashCode() + 17*(int)id;
     }
 }
