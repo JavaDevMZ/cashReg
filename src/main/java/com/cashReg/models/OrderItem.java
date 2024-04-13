@@ -5,11 +5,16 @@ public class OrderItem extends Product{
 
     private Product origin;
     private long id;
+    private long orderId;
     private long productId;
     private long quantity;
+    public long getOrderId() {
+        return orderId;
+    }
 
-    public OrderItem(Product origin, long quantity){
+    public OrderItem(Product origin, long orderId, long quantity){
         this.origin = origin;
+        this.orderId = orderId;
         productId = origin.getId();
     }
 

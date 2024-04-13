@@ -30,11 +30,11 @@ public class Order extends Model {
         return amount;
     }
 
-    public void addProduct(Product product, Long quantity){
+    public void addProduct(Product product, long quantity){
         if(quantity > product.getQuantity() || quantity <=0){
             throw new IllegalArgumentException("Invalid quantity");
         }
-        items.add(new OrderItem(product, quantity));
+        items.add(new OrderItem(product, id, quantity));
     }
 
     public void addProduct(long productId, long quantity){
@@ -71,6 +71,10 @@ public class Order extends Model {
         items = null;
         amount = 0.0f;
         customerId = -1;
+    }
+
+    public void setClosed(){
+        isClosed=true;
     }
 
     public void remove(long productId){

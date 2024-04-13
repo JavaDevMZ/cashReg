@@ -6,6 +6,11 @@ import com.cashReg.models.Model;
 import java.util.ArrayList;
 import java.util.List;
 
+/** This a wrapper for List
+ * it synchronizes the database with modification made in the list
+ * Stores Products, OrderItems and Users
+ * @param <T>
+ */
 public class SQLArrayList<T extends Model> extends ArrayList<T> {
 
     private List<T> origin;

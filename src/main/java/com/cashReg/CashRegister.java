@@ -15,7 +15,12 @@ public class CashRegister {
         private static CashRegister instance;
         private List<User> users;
         private final Warehouse warehouse = Warehouse.getInstance();
-        private final List<Order> orders;
+
+        public void setOrders(List<Order> orders) {
+                this.orders = orders;
+        }
+
+        private List<Order> orders;
         private UserController userController;
         private User currentUser;
         private SQLExecutor sqlExecutor = new SQLExecutor();
