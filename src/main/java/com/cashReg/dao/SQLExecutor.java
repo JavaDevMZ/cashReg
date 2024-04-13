@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cashReg.util.SQLArrayList;
+import com.cashReg.util.SQLList;
 import com.cashReg.util.UserUtil;
 
 public class SQLExecutor {
@@ -62,7 +62,7 @@ public class SQLExecutor {
                  int roleId = resultSet.getInt(4);
                   result.add(UserUtil.createUser(username, password, roleId));
               }
-              return new SQLArrayList<>(result);
+              return new SQLList<>(result);
           }catch(SQLException sqlE){
               throw new RuntimeException(sqlE.getMessage());
           }
@@ -79,7 +79,7 @@ public class SQLExecutor {
                   long quantity = resultSet.getLong(4);
                   result.add(new Product(id, name, price, quantity));
               }
-              return new SQLArrayList<>(result);
+              return new SQLList<>(result);
           }catch(SQLException sqlE){
               throw new RuntimeException(sqlE.getMessage());
           }
@@ -105,11 +105,11 @@ public class SQLExecutor {
                         item.setId(itemId);
                         order.addProduct(product, quantity);
                     }
-                    order.setItems(new SQLArrayList<>(products));
+                    order.setItems(new SQLList<>(products));
                     order.setClosed();
                 result.add(order);
             }
-            return new SQLArrayList<>(result);
+            return new SQLList<>(result);
           }catch(SQLException sqlE){
               throw new RuntimeException(sqlE.getMessage());
           }
