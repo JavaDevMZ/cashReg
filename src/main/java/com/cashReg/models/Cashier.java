@@ -5,7 +5,10 @@ import com.cashReg.util.Role;
 
 public class Cashier extends User {
 
-    private final Role role = Role.CASHIER;
+    public Order getOrder() {
+        return order;
+    }
+
     protected Order order;
 
     public Cashier(String username, String password){

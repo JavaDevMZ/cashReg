@@ -4,10 +4,10 @@ package com.cashReg.models;
 public class OrderItem extends Product{
 
     private Product origin;
-    private long id;
     private long orderId;
     private long productId;
     private long quantity;
+
     public long getOrderId() {
         return orderId;
     }
@@ -27,6 +27,9 @@ public class OrderItem extends Product{
     }
 
     public void setQuantity(long quantity){
+       if(quantity>getQuantityInWarehouse()||quantity<0){
+           throw new IllegalArgumentException("Illegal quantity");
+       }
         this.quantity = quantity;
     }
     @Override
@@ -37,6 +40,14 @@ public class OrderItem extends Product{
     @Override
     public float getPrice(){
         return origin.getPrice();
+    }
+
+    public String getName(){
+        return origin.getName();
+    }
+
+    public void setName(String name){
+        origin.setName(name);
     }
 
     public long getQuantityInWarehouse(){

@@ -1,9 +1,8 @@
 package com.cashReg;
 
 import com.cashReg.dao.SQLExecutor;
-import com.cashReg.models.OrderItem;
 import com.cashReg.models.Product;
-import com.cashReg.util.SQLArrayList;
+import com.cashReg.util.SQLList;
 
 import javax.inject.Singleton;
 import java.util.List;
@@ -51,7 +50,7 @@ public final class Warehouse {
 
     public void setQuantity(long id, long quantity){
 
-        ((SQLArrayList<Product>)products).getById(id).setQuantity(quantity);
+        ((SQLList<Product>)products).getById(id).setQuantity(quantity);
     }
 
     public List<Product> getProducts() {

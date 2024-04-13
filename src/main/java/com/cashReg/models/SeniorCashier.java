@@ -15,8 +15,9 @@ public class SeniorCashier extends Cashier {
         order.remove(id);
     }
 
+        //todo after having implemented web pages
     public void xReport(){
-//todo after having implemented web pages
+
     }
 
     public void zReport(){

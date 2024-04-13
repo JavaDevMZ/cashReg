@@ -11,12 +11,12 @@ import java.util.List;
  * Stores Products, OrderItems and Users
  * @param <T>
  */
-public class SQLArrayList<T extends Model> extends ArrayList<T> {
+public class SQLList<T extends Model> extends ArrayList<T> {
 
     private List<T> origin;
     private SQLExecutor sqlExecutor = new SQLExecutor();
 
-    public SQLArrayList(List<T> origin){
+    public SQLList(List<T> origin){
         this.origin = origin;
     }
 

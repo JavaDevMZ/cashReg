@@ -1,19 +1,20 @@
 package com.cashReg.models;
 
-import com.cashReg.util.SQLArrayList;
+import com.cashReg.util.SQLList;
+import java.util.List;
 
 public class Order extends Model {
 
     private long customerId;
     private float amount;
-    private SQLArrayList<OrderItem> items;
+    private List<OrderItem> items;
     private boolean isClosed = false;
 
-    public SQLArrayList<OrderItem> getItems() {
+    public List<OrderItem> getItems() {
         return items;
     }
 
-    public void setItems(SQLArrayList<OrderItem> items) {
+    public void setItems(List<OrderItem> items) {
         this.items = items;
     }
 
@@ -77,11 +78,13 @@ public class Order extends Model {
         isClosed=true;
     }
 
-    public void remove(long productId){
+    public Product remove(long productId){
+       Product result = null;
         for(int i = 0; i < items.size(); i++){
             if(items.get(i).getProductId()==productId){
-                items.remove(i);
+                result = items.remove(i).getProduct();
             }
         }
+        return result;
     }
 }
