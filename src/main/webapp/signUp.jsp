@@ -19,9 +19,9 @@
         <input type="password" id="password" aria-label="Password:" name="password">
         <select  name="role">
             Choose your role
-            <option value="Cashier">Cashier</option>
-            <option value="SeniorCashier">Senior Cashier</option>
-            <option value="CommodityExpert">Commodity Expert</option>
+            <option datatype="text" value="Cashier">Cashier</option>
+            <option datatype="text" value="SeniorCashier">Senior Cashier</option>
+            <option datatype="text" value="CommodityExpert">Commodity Expert</option>
         </select>
     </form>
    <button form="sign_up_form" formmethod="POST" type="submit" >Submit</button>

@@ -15,14 +15,21 @@ import com.cashReg.util.UserUtil;
 
 public class SQLExecutor {
 
-    private final static String SELECT_ALL = "SELECT * FROM %s";
+    private final static String SELECT_ALL = "SELECT * FROM ";
     private final static String INSERT = "INSERT INTO %s VALUES (%s)";
-    private final static String UPDATE = "UPDATE %s SET(%s) WHERE %s";
+    private final static String UPDATE = "UPDATE \"%s\" SET(%s) WHERE %s";
 
-      private static DataSource dataSource = new DataSource();
-      private static Connection connection = dataSource.getConnection();
+      private static volatile Connection connection;
 
-      public long insertObject(Object object){
+      static {
+          try {
+              connection = DataSource.getConnection();
+          } catch (Throwable e) {
+              e.printStackTrace();
+          }
+      }
+
+      public long insertModel(Model object){
           if(object instanceof User){
               return insertUser((User)object);
           }else if(object instanceof Order){
@@ -36,13 +43,13 @@ public class SQLExecutor {
 
       public long insertUser(User user){
           try {
-              String query = String.format(INSERT, "User(username, password, role_id)", "%s, %s %d");
+              String query = String.format(INSERT, "\"user\"(username, password, role_id)", "'%s', '%s', %d");
 
               PreparedStatement statement = connection.prepareStatement(String.format(
                       query, user.getUsername(), user.getPassword(), user.getRole().getOrdinal()));
               statement.execute();
               ResultSet resultSet = statement.getGeneratedKeys();
-              long id = resultSet.getLong("id");
+              long id = resultSet.getLong(1);
               user.setId(id);
 
               return id;
@@ -53,14 +60,16 @@ public class SQLExecutor {
 
       public List<User> getAllUsers(){
 
-          try(ResultSet resultSet = executeSelect(SELECT_ALL+"user")) {
+          try(ResultSet resultSet = executeSelect(SELECT_ALL + "\"user\"")) {
               List<User> result = new ArrayList<>();
               while (resultSet.next()) {
                  long id = resultSet.getLong(1);
                  String username = resultSet.getString(2);
                  String password = resultSet.getString(3);
                  int roleId = resultSet.getInt(4);
-                  result.add(UserUtil.createUser(username, password, roleId));
+                 User user = UserUtil.createUser(username, password, roleId);
+                 user.setId(id);
+                  result.add(user);
               }
               return new SQLList<>(result);
           }catch(SQLException sqlE){
@@ -71,7 +80,7 @@ public class SQLExecutor {
 
       public List<Product> getAllProducts(){
             List<Product> result = new ArrayList<>();
-          try(ResultSet resultSet = executeSelect(SELECT_ALL+"product")) {
+          try(ResultSet resultSet = executeSelect(SELECT_ALL+"\"product\"")) {
               while (resultSet.next()) {
                   long id = resultSet.getLong(1);
                   String name = resultSet.getString(2);
@@ -87,15 +96,18 @@ public class SQLExecutor {
 
       public List<Order> getAllOrders(){
             Warehouse warehouse = Warehouse.getInstance();
-          try(ResultSet resultSet = executeSelect(SELECT_ALL+"order")){
+          try(ResultSet resultSet = executeSelect(SELECT_ALL+"\"order\"")){
            List<Order> result = new ArrayList<>();
             while(resultSet.next()){
                 long orderId = resultSet.getLong(1);
                 long customerId = resultSet.getLong(2);
                 float amount = resultSet.getFloat(3);
                 List<OrderItem> products = new ArrayList<>();
-                ResultSet orderItems = executeSelect(SELECT_ALL+"order_item WHERE order_id = " + orderId);
+                ResultSet orderItems = executeSelect(SELECT_ALL+"\"order_item\" WHERE order_id = " + orderId);
                 Order order = new Order();
+                order.setId(orderId);
+                order.setCustomerId(customerId);
+                order.setAmount(amount);
                     while(orderItems.next()){
                         long itemId = orderItems.getLong(1);
                         long productId = orderItems.getLong(2);
@@ -121,7 +133,7 @@ public class SQLExecutor {
             for(OrderItem item : order.getItems()){
                 insertOrderItem(item);
             }
-            String query = String.format(INSERT, "order(customer_id, amount)", "%d, %f");
+            String query = String.format(INSERT, "\"order\"(customer_id, amount)", "%d, %f");
             try{
                 ResultSet resultSet = execute(String.format(query, customerId, amount));
                 resultSet.next();
@@ -139,7 +151,7 @@ public class SQLExecutor {
           long productId = item.getProductId();
           long quantity = item.getQuantity();
 
-          String query = String.format(INSERT, "order_item(order_id, product_id, quantity)", "%d, %d, %d");
+          String query = String.format(INSERT, "\"order_item\"(order_id, product_id, quantity)", "%d, %d, %d");
           try{
               ResultSet resultSet = execute(String.format(query, orderId, productId, quantity));
               resultSet.next();
@@ -155,7 +167,7 @@ public class SQLExecutor {
           String name = product.getName();
           float price = product.getPrice();
           long quantity = product.getQuantity();
-          String query = String.format(INSERT, "product(name, price, quantity)", "%s, %f, %d");
+          String query = String.format(INSERT, "\"product\"(name, price, quantity)", "'%s', %f, %d");
           try{
             ResultSet resultSet = execute(String.format(query, name, price, quantity));
             resultSet.next();
@@ -168,7 +180,7 @@ public class SQLExecutor {
       }
 
       public void updateProductQty(long productId, long quantity){
-          String query = String.format(UPDATE, "product(quantity)", "%d", "id = %d");
+          String query = String.format(UPDATE, "\"product\"(quantity)", "%d", "id = %d");
          try {
              execute(String.format(query, quantity, productId));
          }catch(SQLException sqlE){
@@ -177,7 +189,7 @@ public class SQLExecutor {
       }
 
       public void updateOrderItemQuantity(long orderId, long productId, long quantity) {
-          String query = String.format(UPDATE, "order_item(quantity)", "%d", "order_id=%d AND product_id=%d");
+          String query = String.format(UPDATE, "\"order_item\"(quantity)", "%d", "order_id=%d AND product_id=%d");
           try{
               execute(String.format(query, quantity, orderId, productId));
           }catch(SQLException sqlE){
