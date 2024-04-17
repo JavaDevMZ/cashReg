@@ -10,25 +10,26 @@ import java.util.List;
 @Singleton
 public final class Warehouse {
 
-    private static Warehouse instance;
+    private static volatile Warehouse instance;
+    private List<Product> products;
+    private SQLExecutor sqlExecutor = new SQLExecutor();
 
     public void setProducts(List<Product> products) {
         this.products = products;
     }
 
-    private List<Product> products;
-    private SQLExecutor sqlExecutor = new SQLExecutor();
-
-
-    public static Warehouse getInstance(){
+    public static synchronized Warehouse getInstance(){
         if(instance==null){
-            instance = new Warehouse();
+            synchronized(Warehouse.class) {
+             if(instance==null) {
+                 instance = new Warehouse();
+             }
+            }
         }
         return instance;
     }
 
     private Warehouse(){
-        products = sqlExecutor.getAllProducts();
     }
 
     public Product getProduct(long id){

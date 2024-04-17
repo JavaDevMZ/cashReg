@@ -2,6 +2,7 @@ package com.cashReg.conrollers;
 
 import com.cashReg.CashRegister;
 import com.cashReg.models.User;
+import com.cashReg.util.UserUtil;
 
 import java.util.List;
 
@@ -15,19 +16,25 @@ public class UserController {
         return user;
     }
 
+    public void signUp(String username, String password, String role){
+        signUp(UserUtil.createUser(username, password, role));
+    }
     public void signUp(User user){
         if(users.contains(user)){
             throw new IllegalArgumentException("User is already registered!");
         }
         users.add(user);
-        login(user);
-
+      cashRegister.setCurrentUser(user);
     }
 
-    public void login(User user) {
-        if(!users.contains(user)) {
-       throw new IllegalArgumentException("User is not registered!");
+    public User login(String username, String password) throws IllegalAccessException{
+     User user = UserUtil.getUserByName(username);
+if(password.equals(user.getPassword())){
+    cashRegister.setCurrentUser(user);
+     return user;
+        }else{
+    throw new IllegalAccessException("Wrong password!");
         }
-        cashRegister.setCurrentUser(user);
     }
+
 }

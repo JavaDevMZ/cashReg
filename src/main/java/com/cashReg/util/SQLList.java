@@ -22,7 +22,7 @@ public class SQLList<T extends Model> extends ArrayList<T> {
 
     @Override
     public boolean add(T object){
-        sqlExecutor.insertObject(object);
+        sqlExecutor.insertModel(object);
         return origin.add(object);
     }
 

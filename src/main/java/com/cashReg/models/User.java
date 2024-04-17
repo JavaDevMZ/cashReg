@@ -8,10 +8,12 @@ public abstract class User extends Model{
     private final Role role;
     private String password;
 
-    public User(String userame, String password){
+    public User(String username, String password ){
         this.username = username;
         this.password = password;
-        switch(this.getClass().getName()){
+
+        String roleStr = getClass().getSimpleName();
+        switch(roleStr){
             case "CommodityExpert":
                 role=Role.COMMODITY_EXPERT;
                 break;
@@ -22,6 +24,7 @@ public abstract class User extends Model{
                 role=Role.SENIOR_CASHIER;
                 break;
             default:
+                System.out.println(("User constructor. role="+roleStr));
                 throw new RuntimeException("invalid user role");
         }
     }

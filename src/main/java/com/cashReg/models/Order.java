@@ -10,6 +10,10 @@ public class Order extends Model {
     private List<OrderItem> items;
     private boolean isClosed = false;
 
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
     public List<OrderItem> getItems() {
         return items;
     }
