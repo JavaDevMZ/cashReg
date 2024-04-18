@@ -4,6 +4,7 @@ import com.cashReg.dao.SQLExecutor;
 import com.cashReg.models.Model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /** This a wrapper for List
@@ -54,5 +55,15 @@ public class SQLList<T extends Model> extends ArrayList<T> {
     @Override
     public T remove(int index){
        return origin.remove(index);
+    }
+
+    @Override
+    public Iterator<T> iterator(){
+        return origin.iterator();
+    }
+
+    @Override
+    public int size(){
+        return origin.size();
     }
 }
