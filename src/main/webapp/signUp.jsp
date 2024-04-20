@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.cashReg.servlets.SignUpServlet" %><%--
   Created by IntelliJ IDEA.
   User: maksimzelinskyi
   Date: 27/03/2024
@@ -25,6 +25,8 @@
         </select>
     </form>
    <button form="sign_up_form" formmethod="POST" type="submit" >Submit</button>
-
+     <% if(SignUpServlet.isAlreadyInvoked()){
+         out.print("<h1 color='red'>Wrong username or password!<h1> <h2>Try again.</h2>");
+     }%>
 </body>
 </html>

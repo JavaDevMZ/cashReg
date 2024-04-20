@@ -2,7 +2,7 @@ package com.cashReg.util.sql;
 
 import java.sql.SQLException;
 
-public class Updater extends SQLExecutor {
+public class Updater extends AbstractExecutor {
 
     public void updateProductQty(long productId, long quantity){
         String query = String.format(UPDATE, "\"product\"(quantity)", "%d", "id = %d");

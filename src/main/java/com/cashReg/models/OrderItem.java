@@ -6,13 +6,12 @@ public class OrderItem extends Product{
     private Product origin;
     private long orderId;
     private long productId;
-    private long quantity;
 
     public long getOrderId() {
         return orderId;
     }
 
-    public OrderItem(Product origin, long orderId, long quantity){
+    public OrderItem(Product origin, long orderId){
         this.origin = origin;
         this.orderId = orderId;
         productId = origin.getId();
@@ -22,16 +21,6 @@ public class OrderItem extends Product{
         return origin.getId();
     }
 
-    public long getQuantity(){
-        return quantity;
-    }
-
-    public void setQuantity(long quantity){
-       if(quantity>getQuantityInWarehouse()||quantity<0){
-           throw new IllegalArgumentException("Illegal quantity");
-       }
-        this.quantity = quantity;
-    }
     @Override
     public void setPrice(float price){
         origin.setPrice(price);
@@ -50,11 +39,13 @@ public class OrderItem extends Product{
         origin.setName(name);
     }
 
-    public long getQuantityInWarehouse(){
-        return origin.getQuantity();
-    }
-
     public Product getProduct(){
         return origin;
+    }
+
+    @Override
+    public String toString(){
+        String result = "%s %f$ * <input name=\"set_Quantity\" formmethod=\"post\" pattern=%%d> %%d";
+        return String.format(result, getName(), getPrice());
     }
 }

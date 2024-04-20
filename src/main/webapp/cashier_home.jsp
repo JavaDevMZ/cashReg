@@ -8,9 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Cashier</title>
 </head>
 <body>
-
+        <button onclick="location.href='/order'" datatype="number" value="0">Create new order</button>
 </body>
 </html>

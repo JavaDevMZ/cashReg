@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.cashReg.servlets.LoginServlet" %><%--
   Created by IntelliJ IDEA.
   User: maksimzelinskyi
   Date: 29/03/2024
@@ -17,7 +17,11 @@
             <label for="password">Password</label>
         <input type="password" id="password" name="password">
 
-        <button type="submit" formmethod="post">Login</button>
+        <button type="submit" formmethod="post" >Login</button>
     </form>
+
+    <% if(LoginServlet.isAlreadyInvoked()){
+        out.print("<h1 color='red'>Wrong username or password!<h1> <h2>Try again.</h2>");
+}%>
 </body>
 </html>

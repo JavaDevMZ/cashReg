@@ -1,6 +1,7 @@
 package com.cashReg.servlets;
 
 import com.cashReg.conrollers.UserController;
+import com.cashReg.util.UserUtil;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,7 +13,13 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-        UserController userController = new UserController();
+
+    private static boolean alreadyInvoked=false;
+    UserController userController = new UserController();
+
+    public static boolean isAlreadyInvoked() {
+        return alreadyInvoked;
+    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,7 +34,8 @@ public class LoginServlet extends HttpServlet {
        try {
          userController.login(username, password);
        }catch(IllegalAccessException e){
-         RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+         doGet(request, response);
        }
+      response.sendRedirect(UserUtil.getUserPage());
     }
 }

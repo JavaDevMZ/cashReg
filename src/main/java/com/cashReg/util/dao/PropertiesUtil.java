@@ -1,4 +1,4 @@
-package com.cashReg.dao;
+package com.cashReg.util.dao;
 
 import java.io.InputStream;
 import java.io.IOException;

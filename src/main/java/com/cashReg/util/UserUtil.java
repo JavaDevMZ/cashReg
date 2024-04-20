@@ -38,4 +38,9 @@ public final class UserUtil {
        }
        return result;
     }
+
+   public static String getUserPage(){
+       return"/"+cashRegister.getCurrentUser().getRole().toString().toLowerCase();
+        }
+
 }

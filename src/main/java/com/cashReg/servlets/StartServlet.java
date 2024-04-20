@@ -2,7 +2,7 @@ package com.cashReg.servlets;
 
 import com.cashReg.CashRegister;
 import com.cashReg.Warehouse;
-import com.cashReg.dao.SQLExecutor;
+import com.cashReg.util.sql.SQLExecutor;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

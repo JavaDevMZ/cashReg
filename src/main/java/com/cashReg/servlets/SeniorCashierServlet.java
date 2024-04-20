@@ -7,15 +7,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
-
-@WebServlet("/cashier")
-public class CashierServlet extends HttpServlet {
+@WebServlet("/senior_cashier")
+public class SeniorCashierServlet extends CashierServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("cashier_home.jsp");
-        dispatcher.forward(req, resp);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("senior_cashier_home.jsp");
     }
 
     @Override

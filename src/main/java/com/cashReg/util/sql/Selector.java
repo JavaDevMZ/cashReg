@@ -18,9 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Selector extends SQLExecutor {
-
-    private static volatile Connection connection;
+public class Selector extends AbstractExecutor {
 
     static {
         try {

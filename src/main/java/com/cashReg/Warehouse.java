@@ -1,31 +1,26 @@
 package com.cashReg;
 
-import com.cashReg.dao.SQLExecutor;
+import com.cashReg.util.sql.SQLExecutor;
 import com.cashReg.models.Product;
-import com.cashReg.util.SQLList;
 
 import javax.inject.Singleton;
-import java.util.List;
+import java.util.Map;
 
 @Singleton
 public final class Warehouse {
 
     private static volatile Warehouse instance;
-    private List<Product> products;
+    private Map<Product, Long> products;
     private SQLExecutor sqlExecutor = new SQLExecutor();
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Map<Product, Long> products) {
         this.products = products;
     }
 
     public static synchronized Warehouse getInstance(){
-        if(instance==null){
-            synchronized(Warehouse.class) {
              if(instance==null) {
                  instance = new Warehouse();
              }
-            }
-        }
         return instance;
     }
 
@@ -33,15 +28,16 @@ public final class Warehouse {
     }
 
     public Product getProduct(long id){
-        for(Product product : products){
+        for(Product product : products.keySet()){
             if(product.getId()==id){
                 return product;
             }
         }
         return null;
     }
+
     public Product getProduct(String name){
-        for(Product product : products){
+        for(Product product : products.keySet()){
             if(product.getName().equals(name)){
                 return product;
             }
@@ -50,11 +46,18 @@ public final class Warehouse {
     }
 
     public void setQuantity(long id, long quantity){
-
-        ((SQLList<Product>)products).getById(id).setQuantity(quantity);
+       products.put(getProduct(id), quantity);
     }
 
-    public List<Product> getProducts() {
+    public long getQuantity(long productId){
+       return getQuantity(getProduct(productId));
+    }
+
+    public long getQuantity(Product product){
+       return products.get(product);
+    }
+
+    public Map<Product, Long> getProducts() {
         return products;
     }
 

@@ -1,18 +1,9 @@
 package com.cashReg.models;
 
-public class Product extends Model{
+public class Product extends Model implements HasQuantity{
 
     private String name;
     private float price;
-    private long quantity;
-
-    public long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(long quantity) {
-        this.quantity = quantity;
-    }
 
     public float getPrice() {
         return price;
@@ -22,11 +13,10 @@ public class Product extends Model{
         this.price = price;
     }
 
-    public Product(long id, String name, float price, long quantity) {
+    public Product(long id, String name, float price) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.quantity = quantity;
     }
 
     public Product(){}

@@ -1,9 +1,7 @@
-package com.cashReg.dao;
+package com.cashReg.util.dao;
 
 import java.sql.Connection;
 import org.postgresql.ds.PGSimpleDataSource;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DataSource {
 

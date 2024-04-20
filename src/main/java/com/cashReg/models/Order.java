@@ -2,23 +2,24 @@ package com.cashReg.models;
 
 import com.cashReg.util.SQLList;
 import java.util.List;
+import java.util.Map;
 
 public class Order extends Model {
 
     private long customerId;
     private float amount;
-    private List<OrderItem> items;
+    private Map<OrderItem, Long> items;
     private boolean isClosed = false;
 
     public void setAmount(float amount) {
         this.amount = amount;
     }
 
-    public List<OrderItem> getItems() {
+    public Map<OrderItem, Long> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderItem> items) {
+    public void setItems(Map<OrderItem, Long> items) {
         this.items = items;
     }
 
@@ -28,18 +29,18 @@ public class Order extends Model {
 
     public float getAmount() {
         float amount = 0.0f;
-        for(OrderItem item : items){
-            amount += item.getQuantity() * item.getPrice();
+        for(OrderItem item : items.keySet()){
+            amount += items.get(item) * item.getPrice();
         }
         this.amount = amount;
         return amount;
     }
 
     public void addProduct(Product product, long quantity){
-        if(quantity > product.getQuantity() || quantity <=0){
+        if(quantity > warehouse.getQuantity(product) || quantity <=0){
             throw new IllegalArgumentException("Invalid quantity");
         }
-        items.add(new OrderItem(product, id, quantity));
+        items.put(new OrderItem(product, id), quantity);
     }
 
     public void addProduct(long productId, long quantity){
@@ -52,12 +53,12 @@ public class Order extends Model {
         addProduct(product, quantity);
     }
 
-    public void setQuantity(long productId, long quantity){
-      for(OrderItem item : items){
-          if(item.getProductId()==productId){
-              item.setQuantity(quantity);
-          }
-      }
+    public void setQuantity(long itemId, long quantity){
+        for(OrderItem item : items.keySet()){
+            if(item.getId() == itemId){
+                items.put(item, quantity);
+            }
+        }
     }
 
     public boolean isClosed(){return isClosed;}
@@ -84,9 +85,10 @@ public class Order extends Model {
 
     public Product remove(long productId){
        Product result = null;
-        for(int i = 0; i < items.size(); i++){
-            if(items.get(i).getProductId()==productId){
-                result = items.remove(i).getProduct();
+        for(OrderItem item : items.keySet()){
+            if(item.getProductId()==productId){
+                result = item;
+                items.remove(items);
             }
         }
         return result;

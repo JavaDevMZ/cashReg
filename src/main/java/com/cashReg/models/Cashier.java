@@ -31,9 +31,9 @@ public class Cashier extends User {
         order.addProduct(productName, quantity);
     }
 
-    public void setQuantity(long productId, long quantity){
+    public void setQuantity(long itemId, long quantity){
         if(order.isClosed()){throw new RuntimeException("Order is closed");}
-        order.setQuantity(productId, quantity);
+        order.setQuantity(itemId, quantity);
     }
 
     public void closeOrder(){

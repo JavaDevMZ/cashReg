@@ -2,13 +2,15 @@ package com.cashReg.models;
 
 import com.cashReg.Warehouse;
 import com.cashReg.util.SQLList;
+import com.cashReg.util.SQLMap;
 
 import java.util.List;
+import java.util.Map;
 
 public class CommodityExpert extends User {
 
     Warehouse warehouse = Warehouse.getInstance();
-    private List<Product> products = warehouse.getProducts();
+    private Map<Product, Long> products = warehouse.getProducts();
 
     public CommodityExpert(String username, String password) {
         super(username, password);
@@ -18,18 +20,16 @@ public class CommodityExpert extends User {
       Product result = new Product();
       result.setName(productName);
       result.setPrice(price);
-      result.setQuantity(quantity);
-      products.add(result);
+
+      products.put(result, quantity);
         return result;
     }
 
-    public void setQuantity(long id, long quantity){
-        SQLList<Product> products = (SQLList<Product>)this.products;
-        products.getById(id).setQuantity(quantity);
+    public void setQuantity(String productName, long quantity){
+        warehouse.setQuantity(products.get(warehouse.getProduct(productName)), quantity);
     }
 
-    public long getQuantity(long id){
-        SQLList<Product> products = (SQLList<Product>)this.products;
-        return products.getById(id).getQuantity();
+    public long getQuantity(String productName){
+        return products.get(warehouse.getProduct(productName));
     }
 }

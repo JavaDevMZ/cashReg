@@ -1,12 +1,8 @@
 package com.cashReg;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.sql.SQLException;
 import java.util.List;
 
-import com.cashReg.dao.SQLExecutor;
+import com.cashReg.util.sql.SQLExecutor;
 import com.cashReg.models.Order;
 import com.cashReg.models.User;
 import com.cashReg.conrollers.UserController;

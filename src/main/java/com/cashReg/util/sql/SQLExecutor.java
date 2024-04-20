@@ -10,21 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class SQLExecutor {
-
-    protected final static String SELECT_ALL = "SELECT * FROM ";
-    protected final static String UPDATE = "UPDATE \"%s\" SET(%s) WHERE %s";
-    protected final static String INSERT = "INSERT INTO \"%s\"(%s)";
-
-    private static Connection connection;
-
-    static {
-        try {
-            connection = DataSource.getConnection();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
+public class SQLExecutor extends AbstractExecutor {
 
     private Selector selector = new Selector();
     private Inserter inserter = new Inserter();
@@ -79,27 +65,4 @@ public class SQLExecutor {
        updater.updateOrderItemQuantity(orderId, productId, quantity);
       }
 
-    /**
-     * Executes a query which returns a selection
-     * @param query
-     * @return the selection retrieved
-     * @throws SQLException
-     */
-    public ResultSet executeSelect(String query) throws SQLException{
-          PreparedStatement statement = connection.prepareStatement(query);
-              return statement.executeQuery();
-          }
-
-    /**
-     * Executes any non-select query
-     * returns what has been inserted
-     * @param query
-     * @return the rows inserted
-     * @throws SQLException
-     */
-    public ResultSet execute(String query) throws SQLException{
-           PreparedStatement statement = connection.prepareStatement(query);
-           statement.execute();
-           return statement.getGeneratedKeys();
-      }
 }

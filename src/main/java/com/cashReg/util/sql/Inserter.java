@@ -6,17 +6,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
-public class Inserter extends SQLExecutor {
+public class Inserter extends AbstractExecutor {
 
     public long insertUser(User user){
         try {
+            long id = -1;
             String query = String.format(INSERT, "\"user\"(username, password, role_id)", "'%s', '%s', %d");
 
             ResultSet resultSet = execute(String.format(
                     query, user.getUsername(), user.getPassword(), user.getRole().getOrdinal()));
-             long id = resultSet.getLong(1);
-            user.setId(id);
 
+            if(resultSet.next()) {
+                id = resultSet.getLong(1);
+                user.setId(id);
+            }
             return id;
         }catch(Exception e){
             throw new RuntimeException(e.getMessage());

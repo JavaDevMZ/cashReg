@@ -1,16 +1,16 @@
 package com.cashReg.util;
 
-import com.cashReg.dao.SQLExecutor;
+import com.cashReg.util.sql.SQLExecutor;
 import com.cashReg.models.Model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 /** This a wrapper for List
  * it synchronizes the database with modification made in the list
- * Stores Products, OrderItems and Users
- * @param <T>
+ * @param <T> User or Order
  */
 public class SQLList<T extends Model> extends ArrayList<T> {
 
@@ -65,5 +65,10 @@ public class SQLList<T extends Model> extends ArrayList<T> {
     @Override
     public int size(){
         return origin.size();
+    }
+
+    @Override
+    public void forEach(Consumer action){
+        origin.forEach(action);
     }
 }

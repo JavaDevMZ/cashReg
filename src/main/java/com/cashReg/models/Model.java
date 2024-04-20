@@ -2,7 +2,7 @@ package com.cashReg.models;
 
 import com.cashReg.CashRegister;
 import com.cashReg.Warehouse;
-import com.cashReg.dao.SQLExecutor;
+import com.cashReg.util.sql.SQLExecutor;
 
 public abstract class Model {
     protected long id;

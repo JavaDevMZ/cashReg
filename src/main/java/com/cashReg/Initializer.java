@@ -1,6 +1,6 @@
 package com.cashReg;
 
-import com.cashReg.dao.SQLExecutor;
+import com.cashReg.util.sql.SQLExecutor;
 
 import java.io.BufferedReader;
 import java.io.IOException;

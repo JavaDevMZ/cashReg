@@ -29,7 +29,7 @@ public class UserController {
 
     public User login(String username, String password) throws IllegalAccessException{
      User user = UserUtil.getUserByName(username);
-if(password.equals(user.getPassword())){
+if(user!=null && password.equals(user.getPassword())){
     cashRegister.setCurrentUser(user);
      return user;
         }else{
