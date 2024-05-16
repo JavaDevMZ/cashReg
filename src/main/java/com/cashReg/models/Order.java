@@ -1,15 +1,27 @@
 package com.cashReg.models;
 
-import com.cashReg.util.SQLList;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Order extends Model {
 
-    private long customerId;
+    private String customerEmail;
     private float amount;
-    private Map<OrderItem, Long> items;
+    private Map<OrderItem, Long> items = new HashMap<>();
     private boolean isClosed = false;
+    private long itemsCount = 0;
+    private long cashierId;
+    private LocalDate date;
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
     public void setAmount(float amount) {
         this.amount = amount;
@@ -24,7 +36,7 @@ public class Order extends Model {
     }
 
     public void close(){
-        isClosed=true;
+            isClosed = true;
     }
 
     public float getAmount() {
@@ -40,7 +52,9 @@ public class Order extends Model {
         if(quantity > warehouse.getQuantity(product) || quantity <=0){
             throw new IllegalArgumentException("Invalid quantity");
         }
-        items.put(new OrderItem(product, id), quantity);
+        OrderItem orderItem = new OrderItem(product, id);
+        orderItem.setId(items.size());
+        items.put(orderItem, quantity);
     }
 
     public void addProduct(long productId, long quantity){
@@ -63,20 +77,20 @@ public class Order extends Model {
 
     public boolean isClosed(){return isClosed;}
 
-    public long getCustomerId() {
-        return customerId;
+    public String getCustomerEmail() {
+        return customerEmail;
     }
 
-    public void setCustomerId(long customerId) {
+    public void setCustomerEmail(String customerEmail) {
         if(isClosed){throw new RuntimeException("Order is closed");}
-        this.customerId = customerId;
+        this.customerEmail = customerEmail;
     }
 
     public void cancel(){
         items.clear();
         items = null;
         amount = 0.0f;
-        customerId = -1;
+        customerEmail = null;
     }
 
     public void setClosed(){
@@ -92,5 +106,18 @@ public class Order extends Model {
             }
         }
         return result;
+    }
+
+    public long getCashierId(){
+        return cashierId;
+    }
+
+    public void setCashierId(long cashierId){
+        this.cashierId=cashierId;
+    }
+
+    public String toString(){
+        return " " + id + "; <fmt:message key=\"customer_email\"/>: " + customerEmail +
+                " <fmt:message key=\"date\"/>: " + date + " <fmt:message key=\"amount\"/>: " + amount;
     }
 }

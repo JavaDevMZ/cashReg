@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-16" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/cashRegister.sql" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/messages-en_recovery.txt" charset="UTF-16" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/messages-ua_recovery.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/messages_ua.properties" charset="UTF-16" />
   </component>
 </project>

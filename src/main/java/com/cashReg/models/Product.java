@@ -36,11 +36,16 @@ public class Product extends Model implements HasQuantity{
 
         if(!(getClass()!=o.getClass())){return false;}
             Product other = (Product) o;
-            return id == other.id || name.equals(other.name);
+            return (id == other.id || name.equals(other.name));
     }
 
     @Override
-    public int hashCode(){
-        return 31 + 17*(int)id + 17*name.hashCode() + 17*(int)price;
+    public int hashCode() {
+            return 31 + 17 * (int) id + 17;
     }
-   }
+
+    @Override
+    public String toString(){
+        String result = "<input name=\"set_qty_id\" readonly value=%d> %s %f$ ";
+        return String.format(result, getId(), getName(), getPrice());}
+}

@@ -2,14 +2,18 @@ package com.cashReg;
 
 import java.util.List;
 
+import com.cashReg.util.Locale;
 import com.cashReg.util.sql.SQLExecutor;
 import com.cashReg.models.Order;
 import com.cashReg.models.User;
-import com.cashReg.conrollers.UserController;
+import com.cashReg.controllers.UserController;
 
+import javax.inject.Singleton;
 
+@Singleton
 public class CashRegister {
 
+        private Locale locale = Locale.EN;
         private static volatile CashRegister instance;
         private List<User> users;
         private final Warehouse warehouse = Warehouse.getInstance();
@@ -70,6 +74,14 @@ public class CashRegister {
 
         public void setUserController(UserController userController) {
                 this.userController = userController;
+        }
+
+        public Locale getLocale() {
+                return locale;
+        }
+
+        public void setLocale(Locale locale) {
+                this.locale = locale;
         }
 }
 

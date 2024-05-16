@@ -10,14 +10,14 @@ import java.util.Map;
 public final class Warehouse {
 
     private static volatile Warehouse instance;
-    private Map<Product, Long> products;
+    private volatile Map<Product, Long> products;
     private SQLExecutor sqlExecutor = new SQLExecutor();
 
     public void setProducts(Map<Product, Long> products) {
         this.products = products;
     }
 
-    public static synchronized Warehouse getInstance(){
+    public static Warehouse getInstance(){
              if(instance==null) {
                  instance = new Warehouse();
              }

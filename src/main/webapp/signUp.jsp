@@ -1,4 +1,6 @@
-<%@ page import="com.cashReg.servlets.SignUpServlet" %><%--
+<%@ page import="com.cashReg.controllers.SignUpServlet" %>
+<%@ page import="com.cashReg.Initializer" %>
+<%--
   Created by IntelliJ IDEA.
   User: maksimzelinskyi
   Date: 27/03/2024
@@ -8,25 +10,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
-<head>
-    <title>Sign up</title>
+<%Initializer.initializeAll();%>
+            <head>
+    <title> <fmt:message key="sign_up"/></title>
 </head>
 <body>
      <form name="sign up" method="POST" id="sign_up_form">
-        <label for="username">Username:</label>
+        <label for="username"> <fmt:message key="username"/></label>
         <input type="text" id="username" name="username">
-        <label for="password">Password:</label>
+        <label for="password"> <fmt:message key="password"/></label>
         <input type="password" id="password" aria-label="Password:" name="password">
         <select  name="role">
-            Choose your role
-            <option datatype="text" value="Cashier">Cashier</option>
-            <option datatype="text" value="SeniorCashier">Senior Cashier</option>
-            <option datatype="text" value="CommodityExpert">Commodity Expert</option>
+            <fmt:message key="choose_role"/>
+            <option datatype="text" value="Cashier">
+                <fmt:message key="cashier"/>
+            </option>
+            <option datatype="text" value="SeniorCashier">
+                <fmt:message key="sCashier"/>
+            </option>
+            <option datatype="text" value="CommodityExpert">
+                <fmt:message key="cExpert"/>
+            </option>
         </select>
     </form>
-   <button form="sign_up_form" formmethod="POST" type="submit" >Submit</button>
-     <% if(SignUpServlet.isAlreadyInvoked()){
-         out.print("<h1 color='red'>Wrong username or password!<h1> <h2>Try again.</h2>");
+   <button form="sign_up_form" formmethod="POST" type="submit" >OK</button>
+     <% if(SignUpServlet.isUserAlreadyExists()){
+         out.print("<h1 color='red'><fmt:message key=\"user_already_exists\"/></h1>");
      }%>
 </body>
 </html>

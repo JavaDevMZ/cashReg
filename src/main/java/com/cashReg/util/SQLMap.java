@@ -1,9 +1,11 @@
 package com.cashReg.util;
 
 import com.cashReg.models.HasQuantity;
+import com.cashReg.models.Product;
 import com.cashReg.util.sql.SQLExecutor;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -16,7 +18,7 @@ import java.util.function.BiConsumer;
  * @param <V> Long, the quantity
  */
 public class SQLMap<K extends HasQuantity, V extends Long> extends HashMap<K, V> {
-    private SQLExecutor sqlExecutor;
+    private SQLExecutor sqlExecutor = new SQLExecutor();
     private Map<K, V> origin;
 
     public SQLMap(Map origin){
@@ -25,7 +27,11 @@ public class SQLMap<K extends HasQuantity, V extends Long> extends HashMap<K, V>
 
     @Override
     public V put(K key, V quantity){
-      sqlExecutor.insertHasQuantity(key, quantity);
+        if(!origin.containsKey(key)) {
+            sqlExecutor.insertHasQuantity(key, quantity);
+        }else{
+            sqlExecutor.updateProductQty(((Product)key).getId(), quantity);
+        }
       return origin.put(key, quantity);
     }
 
@@ -48,4 +54,19 @@ public class SQLMap<K extends HasQuantity, V extends Long> extends HashMap<K, V>
     public void forEach(BiConsumer action){
         origin.forEach(action);
     }
+
+   @Override
+    public boolean containsKey(Object key){
+        return origin.containsKey(key);
+   }
+
+   @Override
+    public boolean containsValue(Object value){
+        return origin.containsValue(value);
+   }
+
+   @Override
+   public int size(){
+        return origin.size();
+   }
 }

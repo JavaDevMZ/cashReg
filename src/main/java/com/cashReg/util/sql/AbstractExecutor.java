@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public abstract class AbstractExecutor {
 
     protected final static String SELECT_ALL = "SELECT * FROM ";
-    protected final static String UPDATE = "UPDATE \"%s\" SET(%s) WHERE %s";
+    protected final static String UPDATE = "UPDATE %s SET %s WHERE %s";
     protected final static String INSERT = "INSERT INTO %s VALUES(%s)";
 
     protected static Connection connection;
@@ -41,8 +41,8 @@ public abstract class AbstractExecutor {
      * @throws SQLException
      */
     public ResultSet execute(String query) throws SQLException{
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.execute();
+        PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+        statement.executeUpdate();
         return statement.getGeneratedKeys();
     }
 }

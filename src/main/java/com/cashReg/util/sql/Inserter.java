@@ -4,6 +4,8 @@ import com.cashReg.models.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Map;
 
 public class Inserter extends AbstractExecutor {
@@ -26,22 +28,32 @@ public class Inserter extends AbstractExecutor {
         }
     }
     public long insertOrder(Order order){
-        long customerId = order.getCustomerId();
+        String customerEmail = order.getCustomerEmail();
         float amount = order.getAmount();
         Map<OrderItem, Long> items = order.getItems();
-        for(OrderItem item : items.keySet()){
-            insertOrderItem(item, items.get(item));
-        }
-        String query = String.format(INSERT, "\"order\"(customer_id, amount)", "%d, %f");
+        long cashierId = order.getCashierId();
+        LocalDate date = order.getDate();
+        long id = 0;
+
+        String query = String.format(INSERT, "\"order\"(amount, customer_email, cashier_id, date)", "%f, %s, %d, %s");
         try{
-            ResultSet resultSet = execute(String.format(query, customerId, amount));
-            resultSet.next();
-            long id = resultSet.getLong(1);
-            order.setId(id);
-            return id;
+            ResultSet resultSet = execute(String.format(query, amount, customerEmail, cashierId, "'"+date.toString()+"'"));
+
+            if(resultSet!=null&&resultSet.next()) {
+                id = resultSet.getLong(1);
+                order.setId(id);
+
+            }else{
+                throw new RuntimeException();
+            }
+            for(OrderItem item : items.keySet()){
+                item.setOrderId(id);
+                insertOrderItem(item, items.get(item));
+            }
         }catch(SQLException sqlE){
             throw new RuntimeException(sqlE.getMessage());
         }
+        return id;
     }
 
     public long insertOrderItem(OrderItem item, long quantity){

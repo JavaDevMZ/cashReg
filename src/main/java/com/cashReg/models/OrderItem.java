@@ -4,6 +4,11 @@ package com.cashReg.models;
 public class OrderItem extends Product{
 
     private Product origin;
+
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
+    }
+
     private long orderId;
     private long productId;
 
@@ -45,7 +50,12 @@ public class OrderItem extends Product{
 
     @Override
     public String toString(){
-        String result = "%s %f$ * <input name=\"set_Quantity\" formmethod=\"post\" pattern=%%d> %%d";
-        return String.format(result, getName(), getPrice());
+        String result = "<form>" +
+                "<input name=\"set_qty_id\" readonly value=%d>" +
+                "%s %f$ * <input name=\"set_quantity\" type=\"number\" value=%%d> = %%f" +
+                "<button type=\"submit\" formmethod=\"post\">OK</button>"+
+                "</form>";
+        return String.format(result, getId(), getName(), getPrice());
     }
+
 }

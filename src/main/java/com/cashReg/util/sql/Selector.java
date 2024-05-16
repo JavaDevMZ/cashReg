@@ -10,13 +10,10 @@ import com.cashReg.util.SQLList;
 import com.cashReg.util.SQLMap;
 import com.cashReg.util.UserUtil;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 
 public class Selector extends AbstractExecutor {
 
@@ -71,19 +68,25 @@ public class Selector extends AbstractExecutor {
             List<Order> result = new ArrayList<>();
             while(resultSet.next()){
                 long orderId = resultSet.getLong(1);
-                long customerId = resultSet.getLong(2);
-                float amount = resultSet.getFloat(3);
+                float amount = resultSet.getFloat(2);
+                String customerEmail = resultSet.getString(3);
+                long cashierId = resultSet.getLong(4);
+                LocalDate date = (LocalDate) (resultSet.getObject(5, LocalDate.class));
+
                 Map<OrderItem, Long> products = new HashMap<>();
                 Order order = new Order();
                 order.setId(orderId);
-                order.setCustomerId(customerId);
+                order.setCustomerEmail(customerEmail);
                 order.setAmount(amount);
+                order.setCashierId(cashierId);
+                order.setDate(date);
+
                 ResultSet orderItems = executeSelect(
                         SELECT_ALL+"\"order_item\" WHERE order_id = " + orderId
                 );
                 while(orderItems.next()){
                     long itemId = orderItems.getLong(1);
-                    long productId = orderItems.getLong(2);
+                    long productId = orderItems.getLong(3);
                     long quantity = orderItems.getLong(4);
                     Product product = Warehouse.getInstance().getProduct(productId);
                     OrderItem item = new OrderItem(product, orderId);

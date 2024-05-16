@@ -2,8 +2,8 @@ package com.cashReg.util;
 
 public enum Role {
     CASHIER("Cashier", 1),
-    SENIOR_CASHIER("SeniorCashier", 2),
-    COMMODITY_EXPERT("CommodityExpert", 3);
+    SENIOR_CASHIER("Senior Cashier", 2),
+    COMMODITY_EXPERT("Commodity Expert", 3);
 
     private final String value;
     private final int ordinal;

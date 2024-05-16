@@ -1,15 +1,21 @@
 package com.cashReg;
 
+import com.cashReg.util.UncaughtExceptionPrinter;
 import com.cashReg.util.sql.SQLExecutor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class Initializer {
 
-    public static synchronized void initializeAll(){
+    static{
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionPrinter());
+    }
+    public static void initializeAll(){
            SQLExecutor sqlExecutor = new SQLExecutor();
        String initQuery = "";
         try(BufferedReader sqlReader = new BufferedReader(new InputStreamReader(Initializer.class.getClassLoader().getResourceAsStream("cashRegister.sql")))){
@@ -25,8 +31,9 @@ public class Initializer {
         }
         CashRegister cashRegister = CashRegister.getInstance();
         cashRegister.setUsers(sqlExecutor.getAllUsers());
-        cashRegister.setOrders(sqlExecutor.getAllOrders());
+
         Warehouse warehouse = Warehouse.getInstance();
         warehouse.setProducts(sqlExecutor.getAllProducts());
+        cashRegister.setOrders(sqlExecutor.getAllOrders());
     }
 }

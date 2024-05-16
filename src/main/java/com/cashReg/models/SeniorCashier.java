@@ -1,6 +1,12 @@
 package com.cashReg.models;
 
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class SeniorCashier extends Cashier {
+
 
     public SeniorCashier(String username, String password){
         super(username, password);
@@ -15,12 +21,27 @@ public class SeniorCashier extends Cashier {
         order.remove(id);
     }
 
-        //todo after having implemented web pages
-    public void xReport(){
+
+    public String xReport(){
+        String report = "";
+        for(Order order : cashRegister.getOrders()){
+          if(order.getCashierId()==cashRegister.getCurrentUser().getId()) {
+              report += order.toString() + ":</br>";
+          }
+        }
+        return "X Report for" + getUsername() + ": </br>" + report;
 
     }
 
-    public void zReport(){
-
+    public String zReport(){
+        String report = "";
+        Date now = new Date();
+        for(Order order : cashRegister.getOrders()){
+            LocalDate date = order.getDate();
+            if(date!=null&&(date.isAfter(LocalDate.now().minusDays(1)))) {
+                report += order.toString() + "</br>";
+            }
+        }
+        return " Z report </br>" + report;
     }
 }

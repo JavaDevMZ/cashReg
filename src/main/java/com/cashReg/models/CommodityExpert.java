@@ -25,6 +25,10 @@ public class CommodityExpert extends User {
         return result;
     }
 
+    public void setQuantity(long id, long quantity){
+        warehouse.setQuantity(id, quantity);
+    }
+
     public void setQuantity(String productName, long quantity){
         warehouse.setQuantity(products.get(warehouse.getProduct(productName)), quantity);
     }

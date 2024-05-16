@@ -1,4 +1,4 @@
-package com.cashReg.conrollers;
+package com.cashReg.controllers;
 
 import com.cashReg.CashRegister;
 import com.cashReg.models.User;
@@ -35,6 +35,10 @@ if(user!=null && password.equals(user.getPassword())){
         }else{
     throw new IllegalAccessException("Wrong password!");
         }
+    }
+
+    public String getUserPage(){
+        return UserUtil.getUserPage(user);
     }
 
 }

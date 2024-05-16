@@ -13,7 +13,7 @@ public final class UserUtil {
     public static User createUser(String username, String password, String role){
 
         try {
-            User user = (User) Class.forName("com.cashReg.models."+role).getConstructor(String.class, String.class).newInstance(username, password);
+            User user = (User) Class.forName("com.cashReg.models."+role.replaceAll(" ", "")).getConstructor(String.class, String.class).newInstance(username, password);
             return user;
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -39,8 +39,8 @@ public final class UserUtil {
        return result;
     }
 
-   public static String getUserPage(){
-       return"/"+cashRegister.getCurrentUser().getRole().toString().toLowerCase();
+   public static String getUserPage(User user){
+       return"/"+cashRegister.getCurrentUser().getRole().toString().toLowerCase().replaceAll(" ", "_");
         }
 
 }

@@ -5,9 +5,11 @@ import java.sql.SQLException;
 public class Updater extends AbstractExecutor {
 
     public void updateProductQty(long productId, long quantity){
-        String query = String.format(UPDATE, "\"product\"(quantity)", "%d", "id = %d");
+        String query = String.format(UPDATE, "\"product\"", "quantity = %d", "id = %d");
         try {
-            execute(String.format(query, quantity, productId));
+            query = String.format(query, productId, quantity);
+            execute(query);
+
         }catch(SQLException sqlE){
             throw new RuntimeException(sqlE.getMessage());
         }
