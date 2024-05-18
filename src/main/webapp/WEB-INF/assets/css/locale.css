@@ -1,0 +1,12 @@
+.localeBtn {
+    border-radius: 20px;
+    padding: 8px;
+    background-color: rgba(43, 45, 64, 0);
+    border: none;
+    cursor: pointer;
+    transition: background-color 300ms;
+}
+
+.localeBtn:hover {
+    background-color: rgba(0, 37, 255, 0.16);
+}

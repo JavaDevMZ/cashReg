@@ -18,6 +18,7 @@
 <html>
 <head>
     <title> <fmt:message key="new_order"/></title>
+    <style><%@include file="/WEB-INF/assets/css/root.css"%></style>
 </head>
 <body>
 
@@ -26,9 +27,10 @@
         Cashier cashier = (Cashier) CashRegister.getInstance().getCurrentUser();
         %>
 
-    <form>
+    <form class="form flex flexDir-c gap-5" >
         <label for="email">Email</label>
             <input id="email"
+                   class="input"
                    name="customer_email"
                    formmethod="post"
                    value="<%cashierController.getCurrentOrder().getCustomerEmail();%>"
@@ -37,51 +39,60 @@
         <label for="product">
             <fmt:message key="product_name/id"/>
         </label>
-        <input type="text" name="product" id="product">
+        <input class="input" type="text" name="product" id="product">
 
         <label for="quantity">
             <fmt:message key="quantity"/>
         </label>
         <input type="number"
+               class="input"
                name="quantity"
                id="quantity"
         >
 
-        <button type="submit" formmethod="post">OK</button>
+        <button class="btn" type="submit" formmethod="post">OK</button>
 
     </form>
-
-       <%
-
-              Map<OrderItem, Long> orderItems = cashierController.getCurrentOrder().getItems();
-
-             if(!orderItems.isEmpty()){
-                 boolean canRemove = cashier.getRole()==Role.SENIOR_CASHIER;
-                 for (Map.Entry<OrderItem, Long> entry : orderItems.entrySet()) {
-                     OrderItem k = entry.getKey();
-                     Long v = entry.getValue();
-                     out.println(("<li>" +
-                             String.format(k.toString(), v, (v*k.getPrice())) +
-                             "</li>"));
-                     if(canRemove){ %>
-        <form>
-        <button type="submit" formmethod="post" name="remove" value="<%=k.getId()%>"></button>
-        </form>
+        <div class="flex flexDir-c gap-5">
             <%
-                        }
-                 }
-             }else{%>
-               <h3> <fmt:message key="empty_order"/></h3>
-          <% } %>
+
+                Map<OrderItem, Long> orderItems = cashierController.getCurrentOrder().getItems();
+
+                if(!orderItems.isEmpty()){
+                    boolean canRemove = cashier.getRole()==Role.SENIOR_CASHIER;
+                    for (Map.Entry<OrderItem, Long> entry : orderItems.entrySet()) {
+                        OrderItem k = entry.getKey();
+                        Long v = entry.getValue();
+                        out.println(("<li>" +
+                                String.format(k.toString(), v, (v*k.getPrice())) +
+                                "</li>"));
+                        if(canRemove){ %>
+            <form>
+                <button class="btn"
+                        type="submit"
+                        formmethod="post"
+                        name="remove"
+                        value="<%=k.getId()%>">
+                </button>
+
+            </form>
+            <%
+                    }
+                }
+            }else{%>
+            <h3 style="color: white"> <fmt:message key="empty_order"/></h3>
+            <% } %>
+        </div>
+
 
 <form>
-    <button type="submit" name="close" formmethod="post" value="true">
+    <button class="btn p-10-15" type="submit" name="close" formmethod="post" value="true">
         <fmt:message key="close_order"/>
     </button>
 </form>
     <% if(cashier.getRole()== Role.SENIOR_CASHIER){%>
     <form>
-        <button name="cancel" value="true" type="submit" formmethod="post">
+        <button class="btn" name="cancel" value="true" type="submit" formmethod="post">
             <fmt:message key="cancel_order"/>
         </button>
     </form>

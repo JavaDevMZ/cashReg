@@ -13,6 +13,7 @@
 <html>
 <head>
     <title><fmt:message key="cExpert"/></title>
+    <style><%@include file="/WEB-INF/assets/css/root.css"%></style>
 </head>
 <body>
         <% CommodityExpertController controller = new CommodityExpertController();%>

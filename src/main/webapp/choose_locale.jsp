@@ -22,9 +22,17 @@
 %>
 <fmt:setBundle basename="messages" />
 <fmt:setLocale value="<%=locale%>" scope="application" />
-<fmt:message key="hello"/>
+<span style="color: white; font-size: 24px">
+       <style><%@include file="/WEB-INF/assets/css/locale.css"%></style>
+<fmt:message  key="hello"/>
+</span>
 <form method="post">
-<button formmethod="post" type="submit" name="change_language" value="true">
+<button class="localeBtn"
+        formmethod="post"
+        type="submit"
+        name="change_language"
+        value="true"
+>
     <img height="30px" width="30px" src="<%=flagLink%>"/>
 </button>
 </form>

@@ -3,16 +3,17 @@
 
 <html>
 
-<head> <fmt:message key="hello"/> </head>
+<head>
+    <style><%@include file="/WEB-INF/assets/css/root.css"%></style>
+</head>
 <body>
 
-<div>
-    <button onclick = "location.href='/sign-up'">
+<div class="flex flexDir-c gap-5">
+
+    <button class="btn p-15-85" onclick = "location.href='/sign-up'">
        <fmt:message key="sign_up"/>
     </button>
-</div>
-<div>
-    <button onclick = "location.href='/login'">
+    <button class="btn p-15-85" onclick = "location.href='/login'">
         <fmt:message key="login"/>
     </button>
 </div>
