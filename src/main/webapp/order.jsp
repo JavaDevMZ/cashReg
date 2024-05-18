@@ -25,15 +25,27 @@
         CashierController cashierController = new CashierController();
         Cashier cashier = (Cashier) CashRegister.getInstance().getCurrentUser();
         %>
-        <form>
-    <input name="customer_email" formethod="post" value="<%out.print(cashierController.getCurrentOrder().getCustomerEmail());%>">
-        </form>
 
     <form>
+        <label for="email">Email</label>
+            <input id="email"
+                   name="customer_email"
+                   formmethod="post"
+                   value="<%cashierController.getCurrentOrder().getCustomerEmail();%>"
+            >
 
-        <label for="product"> <fmt:message key="product_name/id"/></label><input type="text" name="product" id="product">
+        <label for="product">
+            <fmt:message key="product_name/id"/>
+        </label>
+        <input type="text" name="product" id="product">
 
-        <label for="quantity"> <fmt:message key="quantity"/></label><input type="number" name="quantity" id="quantity">
+        <label for="quantity">
+            <fmt:message key="quantity"/>
+        </label>
+        <input type="number"
+               name="quantity"
+               id="quantity"
+        >
 
         <button type="submit" formmethod="post">OK</button>
 

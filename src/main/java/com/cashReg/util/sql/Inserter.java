@@ -1,6 +1,7 @@
 package com.cashReg.util.sql;
 
 import com.cashReg.models.*;
+import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,8 @@ import java.util.Date;
 import java.util.Map;
 
 public class Inserter extends AbstractExecutor {
+
+    private static final Logger log = Logger.getLogger(Inserter.class);
 
     public long insertUser(User user){
         try {
@@ -36,8 +39,9 @@ public class Inserter extends AbstractExecutor {
         long id = 0;
 
         String query = String.format(INSERT, "\"order\"(amount, customer_email, cashier_id, date)", "%f, %s, %d, %s");
+        log.info("insertOrder: " + String.format(query, amount, escapeStr(customerEmail), cashierId, escapeStr(date.toString())));
         try{
-            ResultSet resultSet = execute(String.format(query, amount, customerEmail, cashierId, "'"+date.toString()+"'"));
+            ResultSet resultSet = execute(String.format(query, amount, escapeStr(customerEmail), cashierId, escapeStr(date.toString())));
 
             if(resultSet!=null&&resultSet.next()) {
                 id = resultSet.getLong(1);
@@ -54,6 +58,10 @@ public class Inserter extends AbstractExecutor {
             throw new RuntimeException(sqlE.getMessage());
         }
         return id;
+    }
+
+    private static String escapeStr(String str) {
+        return "'" + str + "'";
     }
 
     public long insertOrderItem(OrderItem item, long quantity){
