@@ -1,6 +1,7 @@
 package com.cashReg.util.sql;
 
 import com.cashReg.Warehouse;
+import com.cashReg.controllers.OrderController;
 import com.cashReg.util.dao.DataSource;
 import com.cashReg.models.Order;
 import com.cashReg.models.OrderItem;
@@ -9,6 +10,7 @@ import com.cashReg.models.User;
 import com.cashReg.util.SQLList;
 import com.cashReg.util.SQLMap;
 import com.cashReg.util.UserUtil;
+import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +18,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Selector extends AbstractExecutor {
+
+    private static final Logger log = Logger.getLogger(Selector.class);
 
     static {
         try {
@@ -64,14 +68,16 @@ public class Selector extends AbstractExecutor {
 
     public List<Order> getAllOrders(){
         Warehouse warehouse = Warehouse.getInstance();
-        try(ResultSet resultSet = executeSelect(SELECT_ALL+"\"order\"")){
+        try(ResultSet resultSet = executeSelect("select o.id, o.customer_id, o.amount, o.customer_email, o.cashier_id, o.date from \"order\" o")){
             List<Order> result = new ArrayList<>();
             while(resultSet.next()){
                 long orderId = resultSet.getLong(1);
-                float amount = resultSet.getFloat(2);
-                String customerEmail = resultSet.getString(3);
-                long cashierId = resultSet.getLong(4);
-                LocalDate date = (LocalDate) (resultSet.getObject(5, LocalDate.class));
+                float amount = resultSet.getFloat(3);
+                String customerEmail = resultSet.getString(4);
+                long cashierId = resultSet.getLong(5);
+//                log.info("order date: " +resultSet.getString(5));
+//                log.info("test: " + resultSet.getLong(1));
+                LocalDate date = (LocalDate) (resultSet.getObject(6, LocalDate.class));
 
                 Map<OrderItem, Long> products = new HashMap<>();
                 Order order = new Order();

@@ -5,11 +5,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends InternationalizableImpl {
+
+    private static final Logger log = Logger.getLogger(LoginServlet.class);
 
     private static boolean wrongCredentials =false;
     UserController userController = new UserController();
@@ -30,9 +33,11 @@ public class LoginServlet extends InternationalizableImpl {
 doGet(req, resp);
 return;
 }
+
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-       try {
+        log.info("login user: name=" + username);
+        try {
          userController.login(username, password);
        }catch(IllegalAccessException e){
          doGet(req, resp);

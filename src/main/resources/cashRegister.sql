@@ -29,6 +29,18 @@ CREATE TABLE if not exists "order"
     amount      FLOAT
 );
 
+CREATE TABLE if not exists "order"
+(
+    id             bigserial
+        primary key,
+    customer_id    bigint,
+    amount         FLOAT,
+    customer_email text,
+    cashier_id     integer,
+    date           timestamp
+);
+
+
 CREATE TABLE if not exists "order_item"
 (
     id BIGSERIAL PRIMARY KEY,
@@ -38,4 +50,6 @@ CREATE TABLE if not exists "order_item"
 );
 
 
-
+insert into role(name) values ('Cashier');
+insert into role(name) values ('SeniorCashier');
+insert into role(name) values ('CommodityExpert')

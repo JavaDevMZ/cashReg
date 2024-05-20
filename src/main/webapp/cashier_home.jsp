@@ -13,10 +13,17 @@
 <html>
 <head>
     <title><fmt:message key="cashier"/></title>
+    <style><%@include file="/WEB-INF/assets/css/root.css"%></style>
 </head>
 <body>
         <form>
-        <button type="submit" name="create_order" formmethod="post" value="create_order"><fmt:message key="new_order"/></button>
+            <button class="btn p-10-15"
+                    type="submit"
+                    name="create_order"
+                    formmethod="post"
+                    value="create_order">
+                <fmt:message key="new_order"/>
+            </button>
         </form>
 </body>
 </html>

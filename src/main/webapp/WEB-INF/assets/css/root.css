@@ -1,0 +1,88 @@
+
+
+
+body, html {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #101329;
+}
+
+.form {
+    font-family: sans-serif;
+    color: white;
+}
+
+.input {
+    padding-left: 15px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 16px;
+    color: white;
+    border-radius: 20px;
+    background-color: #2b2d40;
+    border: #4c5067 solid;
+}
+
+.btn {
+    font-size: 16px;
+    border-radius: 20px;
+    background-color: green;
+    color: white;
+    padding: 3px 5px;
+    transition: background-color 300ms;
+    cursor: pointer;
+    border: none;
+}
+
+.btn:hover {
+    background-color: #019a01;
+}
+
+.btn:active {
+    background-color: #055a05;
+}
+
+.p-15-85 {
+    padding: 15px 85px;
+}
+
+.p-10-15 {
+    padding: 10px 15px;
+}
+
+
+.backBtn {
+    position: absolute;
+    top: -30px;
+    left: -60px;
+}
+
+.gap-5 {gap: 5px;}
+.gap-10 {gap: 10px;}
+.gap-20 {gap: 20px;}
+
+.flex {
+    display: flex;
+}
+
+.alignItems-c  {
+    align-items: center;
+}
+
+.flexDir-c {
+    flex-direction: column;
+}
+
+.flexDir-r {
+    flex-direction: row;
+}

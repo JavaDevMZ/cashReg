@@ -7,11 +7,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.logging.LogManager;
 
 @WebServlet({"/cashier/order", "/senior_cashier/order"})
 public class OrderController extends InternationalizableImpl{
+
+    private static final Logger log = Logger.getLogger(OrderController.class);
 
     private static CashRegister cashRegister = CashRegister.getInstance();
     private CashierController cashierController;
@@ -38,6 +42,8 @@ public class OrderController extends InternationalizableImpl{
         }
 
         String customerEmail = req.getParameter("customer_email");
+        log.info("new Order!");
+        log.info(customerEmail);
         if(customerEmail !=null){
             cashierController.setCustomerEmail(customerEmail);
         }
